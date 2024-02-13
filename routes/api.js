@@ -15,11 +15,16 @@ module.exports = function (app) {
     });
     
   app.route('/api/solve')
-    .post((req, res) => {
-let puzzle = req.body.puzzle;
-if(solver.validate(puzzle)=='field missing') {return res.json({error: 'Required field missing'});}
-if(solver.validate(puzzle)=='invalid character'){return res.json({error: 'Invalid characters in puzzle'})}
-if(solver.validate(puzzle)=='wrong length'){return res.json({error: 'Expected puzzle to be 81 characters long' })}
-return res.json({solution: 'solution'});{}
+  .post((req, res) => {
+    let puzzle = req.body.puzzle;
+    let puzzleGrid = solver.convertStringToGrid(puzzle);
+    let solution;
+    if(solver.validate(puzzle)=='field missing') {return res.json({error: 'Required field missing'});}
+    if(solver.validate(puzzle)=='invalid character'){return res.json({error: 'Invalid characters in puzzle'})}
+    if(solver.validate(puzzle)=='wrong length'){return res.json({error: 'Expected puzzle to be 81 characters long'})}
+    solution = solver.solve(puzzleGrid);
+    if(!solution){return res.json({error: 'Puzzle cannot be solved'})}
+    solution = solver.convertGridToString(solution);
+    return res.json({solution: solution});
     });
 };
