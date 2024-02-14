@@ -10,7 +10,6 @@ module.exports = function (app) {
     .post((req, res) => {
       let puzzle = req.body.puzzle;
       let puzzleGrid;
-      let solution;
       let row;
       let col;
       let conflict = false;
@@ -27,15 +26,15 @@ module.exports = function (app) {
       row = solver.convertLettertoIndex(row);
       col = coordinate[1]-1;
       if(value==puzzleGrid[row][col]){
-        return res.json({valid: 'true'})}
+        return res.json({valid: true})}
  
     if(solver.checkRowPlacement(puzzleGrid, row, col, value)&&solver.checkColPlacement(puzzleGrid, row, col, value)&&solver.checkRegionPlacement(puzzleGrid, row, col, value)){
-      return res.json({valid: 'true'})}
+      return res.json({valid: true})}
 
       if(!solver.checkRowPlacement(puzzleGrid, row, col, value)){conflicts.push("row"), conflict=true;}
       if(!solver.checkColPlacement(puzzleGrid, row, col, value)){conflicts.push("column"), conflict=true;}
       if(!solver.checkRegionPlacement(puzzleGrid, row, col, value)){conflicts.push("region"), conflict=true}
-      if(conflict){return res.json({valid: 'false', conflict: conflicts})}
+      if(conflict){return res.json({valid: false, conflict: conflicts})}
     });
     
   app.route('/api/solve')
