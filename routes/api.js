@@ -28,7 +28,7 @@ module.exports = function (app) {
       if(value==puzzleGrid[row][col]){
         return res.json({valid: 'true'})}
  
-    if(solver.checkRowPlacement(puzzleGrid, row, col, value)&&solver.checkColPlacement(puzzleGrid, row, col, value)&&this.checkRegionPlacement(puzzleGrid, row, col, value)){
+    if(solver.checkRowPlacement(puzzleGrid, row, col, value)&&solver.checkColPlacement(puzzleGrid, row, col, value)&&solver.checkRegionPlacement(puzzleGrid, row, col, value)){
       return res.json({valid: 'true'})}
 
       if(!solver.checkRowPlacement(puzzleGrid, row, col, value)){conflicts.push("row"), conflict=true;}
@@ -42,7 +42,6 @@ module.exports = function (app) {
     let puzzle = req.body.puzzle;
     let puzzleGrid = solver.convertStringToGrid(puzzle);
     let solution;
-    let conflicts = [];
     if(solver.validate(puzzle)=='field missing') {return res.json({error: 'Required field missing'});}
     if(solver.validate(puzzle)=='invalid character'){return res.json({error: 'Invalid characters in puzzle'})}
     if(solver.validate(puzzle)=='wrong length'){return res.json({error: 'Expected puzzle to be 81 characters long'})}
