@@ -16,6 +16,48 @@ class SudokuSolver {
    myString = myString.replace(/,/g,"");
    return myString
  }
+
+ convertLettertoIndex(letter){
+  switch(letter){
+    case 'A':
+    case 'a':
+    return 0;
+    break;
+    case 'B':
+    case 'b':
+    return 1;
+    break;
+    case 'C':
+    case 'c':
+    return 2;
+    break;
+    break;
+    case 'D':
+    case 'd':
+    return 3;
+    break;
+    case 'E':
+    case 'e':
+    return 4;
+    break;
+    case 'F':
+    case 'f':
+    return 5;
+    break;
+    break;
+    case 'G':
+    case 'g':
+    return 6;
+    break;
+    case 'H':
+    case 'h':
+    return 7;
+    break;
+    case 'I':
+    case 'i':
+    return 8;
+}
+}
   
  
    validate(puzzleString) {
@@ -25,67 +67,36 @@ class SudokuSolver {
   }
    
  
-   checkRowPlacement(puzzleString, row, column, value) {
+   checkRowPlacement(puzzleGrid, row, column, value) {
      let valid = true;
- switch(row){
-     case 'A'||'a':
-     row = 0;
-     break;
-     case 'B'||'b':
-     row = 1;
-     break;
-     case 'C'||'c':
-     row = 2;
-     break;
-     case 'D'||'d':
-     row = 3;
-     break;
-     case 'E'||'e':
-     row = 4;
-     break;
-     case 'F'||'f':
-     row = 5;
-     break;
-     case 'G'||'g':
-     row = 6;
-     break;
-     case 'H'||'h':
-     row = 7;
-     break;
-     case 'I'||'i':
-     row = 8;
-     break;
- }
  
  for (let j=0; j<9; j++){
-   if (puzzleString[row][j]==value){
+   if (puzzleGrid[row][j]==value){
      valid = false;
    }
  }
  return valid;
  }
  
-   checkColPlacement(puzzleString, row, column, value) {
+   checkColPlacement(puzzleGrid, row, column, value) {
      let valid = true;
      for (let i=0; i<9; i++){  
    
-     if (puzzleString[i][column]==value){
+     if (puzzleGrid[i][column]==value){
        valid = false
      }  
    }
    return valid;
    }
  
-   checkRegionPlacement(puzzleString, row, column, value) {
+   checkRegionPlacement(puzzleGrid, row, column, value) {
      let valid = true;
      let beginRow = row - (row % 3);
      let beginColumn = column - (column % 3);
   
-     for(let i = beginRow; i < beginRow+3; i++)
-     {
-         for(let j = beginColumn; j < beginColumn+3; j++)
-         {
-             if (puzzleString[i][j] == value)
+     for(let i = beginRow; i < beginRow+3; i++){
+         for(let j = beginColumn; j < beginColumn+3; j++){
+             if (puzzleGrid[i][j] == value)
              {
                  valid = false;
              }
@@ -94,43 +105,42 @@ class SudokuSolver {
    return valid;
  }
  
-   solve(puzzleString) {
-     let completed = true;
-     let row;
-     let col;
-     for (let i = 0; i<9; i++){
-       for(let j=0; j<9; j++){
-       if(puzzleString[i][j]=='.'){
-         row = i;
-         col = j;
-         completed = false;
-      break;
-         }
-         }
- if(!completed)
-   {break;}
- }
-   if(completed){
-     return puzzleString;}
- 
-   for(let val=1; val<10; val++){
- if(this.checkRowPlacement(puzzleString, row, col, val)&&this.checkColPlacement(puzzleString, row, col, val)&&this.checkRegionPlacement(puzzleString, row, col, val)){
-   puzzleString[row][col]=val;
-   if(this.solve(puzzleString)){
-     return puzzleString;
-   }
-   else{
-     puzzleString[row][col] = '.';
-   }
- }
-   }
- 
- return false;
-  
-   }
-  
- }
- 
+ solve(puzzleGrid) {
+  let completed = true;
+  let row;
+  let col;
+  for (let i = 0; i<9; i++){
+    for(let j=0; j<9; j++){
+    if(puzzleGrid[i][j]=='.'){
+      row = i;
+      col = j;
+      completed = false;
+   break;
+      }
+      }
+if(!completed)
+{break;}
+}
+if(completed){
+  return puzzleGrid;}
+
+for(let val=1; val<10; val++){
+if(this.checkRowPlacement(puzzleGrid, row, col, val)&&this.checkColPlacement(puzzleGrid, row, col, val)&&this.checkRegionPlacement(puzzleGrid, row, col, val)){
+puzzleGrid[row][col]=val;
+if(this.solve(puzzleGrid)){
+  return puzzleGrid;
+}
+else{
+  puzzleGrid[row][col] = '.';
+}
+}
+}
+
+return false;
+
+}
+
+}
  
  module.exports = SudokuSolver;
  
