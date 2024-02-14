@@ -64,6 +64,7 @@ class SudokuSolver {
      if(!puzzleString){return 'field missing'}
  if(/[^0-9.]/.test(puzzleString)){return 'invalid character'};
  if(puzzleString.length!=81){return 'wrong length'};
+ return 'valid';
   }
    
  
