@@ -29,7 +29,7 @@ suite('Unit Tests', () => {
         assert.isTrue(solver.checkColPlacement(grid, 1, 2, 3));
       });
       test('#isNotTrue, #handle an invalid column placement', function () {
-        assert.isNotTrue(solver.checkRowPlacement(grid, 1, 2, 6));
+        assert.isNotTrue(solver.checkColPlacement(grid, 1, 2, 6));
       });
       test('#isTrue, #handle a valid region placement', function () {
         assert.isTrue(solver.checkRegionPlacement(grid, 3, 3, 4));
